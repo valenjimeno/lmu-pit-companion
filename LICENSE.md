@@ -1,6 +1,6 @@
 # LMU Pit Companion Binary License
 
-Copyright © 2026 YOUR_NAME_OR_ALIAS. All rights reserved.
+Copyright © 2026 Valentín Jimeno. All rights reserved.
 
 ## Permission
 
@@ -36,6 +36,6 @@ Your permission to use the software ends automatically if you breach these terms
 
 ## Contact
 
-For redistribution, commercial licensing, or other permissions, contact the maintainer through the repository's support channel.
+For redistribution, commercial licensing, or other permissions, contact Valentín Jimeno at `valenjimeno@gmail.com`.
 
 > This license is a project draft and should be reviewed by the copyright holder before publication. It is not legal advice.

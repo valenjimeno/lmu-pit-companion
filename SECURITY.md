@@ -8,7 +8,7 @@ Security fixes are provided for the latest published version of LMU Pit Companio
 
 Do not disclose a suspected vulnerability in a public GitHub issue.
 
-Contact the maintainer privately at `YOUR_SECURITY_CONTACT` and include:
+Contact Valentín Jimeno privately at `valenjimeno@gmail.com` and include:
 
 - the affected version;
 - a concise description of the issue and its impact;

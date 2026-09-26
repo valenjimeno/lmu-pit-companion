@@ -4,7 +4,7 @@
 
 [![Latest release](https://img.shields.io/github/v/release/valenjimeno/lmu-pit-companion?display_name=tag&sort=semver)](https://github.com/valenjimeno/lmu-pit-companion/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/valenjimeno/lmu-pit-companion/total)](https://github.com/valenjimeno/lmu-pit-companion/releases)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_project-FFDD00?logo=buymeacoffee&logoColor=000)](https://www.buymeacoffee.com/YOUR_USERNAME)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_project-FFDD00?logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/valenjimeno)
 
 LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy needed to finish a race and helps configure the Le Mans Ultimate Pit Menu from a steering wheel, button box, Stream Deck, keyboard, or any other controller supported by SimHub.
 
@@ -77,7 +77,7 @@ The calculated value is the total fuel or Virtual Energy target after the stop, 
 
 LMU Pit Companion is developed and maintained independently. If it improves your races and you would like to support its continued development, you can buy me a coffee:
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_LMU_Pit_Companion-FFDD00?logo=buymeacoffee&logoColor=000)](https://www.buymeacoffee.com/YOUR_USERNAME)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_LMU_Pit_Companion-FFDD00?logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/valenjimeno)
 
 Support is optional and does not unlock features or receive priority support.
 
