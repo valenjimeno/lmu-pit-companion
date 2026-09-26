@@ -38,4 +38,3 @@ Your permission to use the software ends automatically if you breach these terms
 
 For redistribution, commercial licensing, or other permissions, contact Valentín Jimeno at `valenjimeno@gmail.com`.
 
-> This license is a project draft and should be reviewed by the copyright holder before publication. It is not legal advice.
