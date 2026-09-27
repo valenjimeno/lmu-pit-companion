@@ -64,7 +64,15 @@ The calculated value is the total fuel or Virtual Energy target after the stop, 
 | `LMUPitCompanionPlugin.TiresAllCurrent` | Change all tyres using their current compounds. |
 | `LMUPitCompanionPlugin.TiresFrontCurrent` | Change only the front tyres. |
 | `LMUPitCompanionPlugin.TiresRearCurrent` | Change only the rear tyres. |
+| `LMUPitCompanionPlugin.TiresLeftCurrent` | Change only the left-side tyres (`FL + RL`). |
+| `LMUPitCompanionPlugin.TiresRightCurrent` | Change only the right-side tyres (`FR + RR`). |
+| `LMUPitCompanionPlugin.TiresFrontLeftCurrent` | Change only the front-left tyre (`FL`). |
+| `LMUPitCompanionPlugin.TiresFrontRightCurrent` | Change only the front-right tyre (`FR`). |
+| `LMUPitCompanionPlugin.TiresRearLeftCurrent` | Change only the rear-left tyre (`RL`). |
+| `LMUPitCompanionPlugin.TiresRearRightCurrent` | Change only the rear-right tyre (`RR`). |
 | `LMUPitCompanionPlugin.TiresAllWet` | Change all four tyres to wets. |
+
+Axle, side, and individual-wheel actions first cancel any previous tyre selection, then select only the requested tyres using the compound currently fitted to each wheel.
 
 ## Documentation and support
 

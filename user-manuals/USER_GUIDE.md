@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.25.2  
+**Documented version:** 0.27.0  
 **Game:** Le Mans Ultimate  
 **Platform:** SimHub on Windows
 
@@ -61,7 +61,15 @@ Selecting **Save and apply** resets the collected samples, so the strategy must 
 | `LMUPitCompanionPlugin.TiresAllCurrent` | Changes all tyres using their fitted compounds. |
 | `LMUPitCompanionPlugin.TiresFrontCurrent` | Changes only the front tyres. |
 | `LMUPitCompanionPlugin.TiresRearCurrent` | Changes only the rear tyres. |
+| `LMUPitCompanionPlugin.TiresLeftCurrent` | Changes only the left-side tyres (`FL + RL`) using their fitted compounds. |
+| `LMUPitCompanionPlugin.TiresRightCurrent` | Changes only the right-side tyres (`FR + RR`) using their fitted compounds. |
+| `LMUPitCompanionPlugin.TiresFrontLeftCurrent` | Changes only the front-left tyre (`FL`) using its fitted compound. |
+| `LMUPitCompanionPlugin.TiresFrontRightCurrent` | Changes only the front-right tyre (`FR`) using its fitted compound. |
+| `LMUPitCompanionPlugin.TiresRearLeftCurrent` | Changes only the rear-left tyre (`RL`) using its fitted compound. |
+| `LMUPitCompanionPlugin.TiresRearRightCurrent` | Changes only the rear-right tyre (`RR`) using its fitted compound. |
 | `LMUPitCompanionPlugin.TiresAllWet` | Changes all four tyres to wets. |
+
+Axle, side, and individual-wheel actions first cancel any previous tyre selection. They then select only the requested tyres, preserving the compound fitted to each selected wheel. This prevents an earlier action from leaving additional tyres enabled.
 
 Actions can be assigned to a keyboard, steering wheel, Stream Deck, button box, or another controller supported by SimHub.
 
