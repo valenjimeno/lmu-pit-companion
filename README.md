@@ -2,7 +2,7 @@
 
 **Smarter pit stops for Le Mans Ultimate**
 
-[![Latest release](https://img.shields.io/github/v/release/valenjimeno/lmu-pit-companion?display_name=tag&sort=semver)](https://github.com/valenjimeno/lmu-pit-companion/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/valenjimeno/lmu-pit-companion?display_name=tag&sort=semver&cacheSeconds=300&release=0.27.1)](https://github.com/valenjimeno/lmu-pit-companion/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/valenjimeno/lmu-pit-companion/total)](https://github.com/valenjimeno/lmu-pit-companion/releases)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_project-FFDD00?logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/valenjimeno)
 
