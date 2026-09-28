@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.27.0  
+**Documented version:** 0.27.1<br>
 **Game:** Le Mans Ultimate  
 **Platform:** SimHub on Windows
 
@@ -70,6 +70,8 @@ Selecting **Save and apply** resets the collected samples, so the strategy must 
 | `LMUPitCompanionPlugin.TiresAllWet` | Changes all four tyres to wets. |
 
 Axle, side, and individual-wheel actions first cancel any previous tyre selection. They then select only the requested tyres, preserving the compound fitted to each selected wheel. This prevents an earlier action from leaving additional tyres enabled.
+
+For conventional fuel, strategy actions convert the displayed total finish target into the amount that must be added to the fuel already in the car. If the complete amount does not fit, the action selects the largest fill exposed by LMU. For current-compound tyre actions, a new set is preferred; when none is available, the plugin selects the first used set of the same fitted compound. It never deliberately substitutes a different compound.
 
 Actions can be assigned to a keyboard, steering wheel, Stream Deck, button box, or another controller supported by SimHub.
 

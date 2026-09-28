@@ -51,7 +51,7 @@ To update, close SimHub and replace the existing DLL with the newer version. You
 4. Run `LMUPitCompanionPlugin.ApplyStrategyThisPit`, or enable automatic application in the plugin settings.
 5. Verify the LMU Pit Menu before entering the pits.
 
-The calculated value is the total fuel or Virtual Energy target after the stop, not a fixed amount to add.
+The calculated value is the total fuel or Virtual Energy target after the stop. For conventional fuel, the action automatically subtracts the fuel already in the car and writes only the amount to add to the LMU Pit Menu.
 
 ## SimHub actions
 

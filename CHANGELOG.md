@@ -4,6 +4,15 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.27.1] - 2026-09-28
+
+### Fixed
+
+- Conventional-fuel strategy actions now convert the total finish target into the amount to add in the LMU Pit Menu and choose the maximum available fill when one tank cannot reach the finish.
+- Timed-boundary protection now contributes its extra lap to the general fuel and Virtual Energy targets, keeping the general and this-lap plans distinct.
+- Current-compound tyre actions now fall back to the first used set of the fitted compound when no new set is available.
+- If LMU rejects an advertised new tyre set, the plugin safely restores the menu and retries with a used set of the same compound instead of leaving wets or another unintended selection active.
+
 ## [0.27.0] - 2026-09-27
 
 ### Added
