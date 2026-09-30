@@ -2,7 +2,7 @@
 
 **Smarter pit stops for Le Mans Ultimate**
 
-[![Latest release](https://img.shields.io/github/v/release/valenjimeno/lmu-pit-companion?display_name=tag&sort=semver&cacheSeconds=300&release=0.27.1)](https://github.com/valenjimeno/lmu-pit-companion/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/valenjimeno/lmu-pit-companion?display_name=tag&sort=semver)](https://github.com/valenjimeno/lmu-pit-companion/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/valenjimeno/lmu-pit-companion/total)](https://github.com/valenjimeno/lmu-pit-companion/releases)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_project-FFDD00?logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/valenjimeno)
 
@@ -15,6 +15,8 @@ LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy n
 ## Highlights
 
 - Calculates fuel and Virtual Energy targets from recent representative laps.
+- Builds compact consumption history separated by physical car model and circuit layout.
+- Can apply the recommended starting fuel or Virtual Energy from an assigned pre-race action.
 - Provides a dedicated target for stopping at the end of the current lap.
 - Detects when the car already has enough energy to finish.
 - Can optionally avoid unnecessary refuelling after a pit request.
@@ -43,6 +45,15 @@ Virtual Energy is read directly from LMU telemetry exposed by SimHub. No additio
 
 To update, close SimHub and replace the existing DLL with the newer version. Your settings are retained by SimHub.
 
+## Pre-race starting load
+
+1. Complete representative laps with the selected car on that circuit layout to build its history.
+2. Return to the race garage and wait for `PreRaceEstimateStatus` to become `READY`.
+3. Run `LMUPitCompanionPlugin.ApplyPreRaceLoad` from an assigned control.
+4. Verify the fuel or Virtual Energy shown by LMU before joining the track.
+
+The plugin identifies the physical LMU vehicle package rather than the team name. If the identity, race duration, garage mode, or history is unavailable, the action stops without changing the starting load.
+
 ## First pit stop
 
 1. Start SimHub before starting or joining an LMU session.
@@ -57,6 +68,7 @@ The calculated value is the total fuel or Virtual Energy target after the stop. 
 
 | Action | Purpose |
 | --- | --- |
+| `LMUPitCompanionPlugin.ApplyPreRaceLoad` | Apply the historical starting fuel or Virtual Energy recommendation in the race garage. |
 | `LMUPitCompanionPlugin.ApplyStrategy` | Apply the conservative finish target. |
 | `LMUPitCompanionPlugin.ApplyStrategyThisPit` | Apply the target for stopping this lap. |
 | `LMUPitCompanionPlugin.NoRefuel` | Select the minimum fuel or Virtual Energy setting. |

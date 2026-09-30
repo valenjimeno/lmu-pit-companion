@@ -4,6 +4,26 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.29.5] - 2026-09-30
+
+### Added
+
+- Compact fuel and Virtual Energy consumption history, stored locally per physical LMU vehicle model and exact circuit layout.
+- Pre-race estimates for timed and lap-limited races using historical consumption, the configured safety margin, and LMU/SimHub session data.
+- `ApplyPreRaceLoad` action to set the recommended starting fuel or Virtual Energy before joining the track.
+- Dashboard properties exposing history identity, sample statistics, pre-race inputs, recommendation status, and verified application results.
+
+### Changed
+
+- Historical consumption can seed the live strategy until representative current-session samples become available, without marking live automation as reliable.
+- Vehicle and circuit identification is resolved from the LMU garage only when needed and retained for the current logical context to avoid continuous API polling.
+
+### Fixed
+
+- Physical vehicle identity is preserved across menu/session transitions and telemetry retries instead of falling back to team names.
+- Provisional history collected on track is migrated to the trusted physical vehicle and circuit-layout profile when the pre-race garage identity becomes available.
+- Conventional-fuel and Virtual Energy starting loads are mapped to the correct LMU garage property and verified after application.
+
 ## [0.27.1] - 2026-09-28
 
 ### Fixed

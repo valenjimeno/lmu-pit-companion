@@ -1,7 +1,7 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.27.1<br>
-**Game:** Le Mans Ultimate  
+**Documented version:** 0.29.5 <br>
+**Game:** Le Mans Ultimate<br>
 **Platform:** SimHub on Windows
 
 ## Overview
@@ -37,6 +37,27 @@ Two targets are available:
 
 `ActiveReliable = 1` and `StrategyStatus = READY` indicate that enough valid samples have been collected.
 
+## Pre-race starting load
+
+The plugin stores a compact consumption history after valid laps. Profiles are separated by the physical LMU vehicle package and exact circuit layout, not by team name. Only aggregate statistics and recent weighted values are retained; individual laps are not stored indefinitely.
+
+Before a race, the plugin combines:
+
+- the timed duration or configured lap count reported through SimHub;
+- a native or historical reference lap time;
+- historical fuel or Virtual Energy consumption for the selected car and layout;
+- the configured safety-lap margin and timed-boundary protection.
+
+When `PreRaceEstimateStatus` is `READY`, run `LMUPitCompanionPlugin.ApplyPreRaceLoad`. The action detects whether LMU exposes `VM_FUEL_LEVEL` or `VM_VIRTUAL_ENERGY`, writes the corresponding garage value, and reads it back for verification. It runs only when requested; it does not repeatedly overwrite a manual change.
+
+The first completed lap establishes a baseline. At least three valid consumption samples are required before the pre-race recommendation becomes available. If there is insufficient history or the car, layout, session, or garage mode cannot be identified reliably, the action stops without changing the setup.
+
+The local history file is stored at:
+
+```text
+%LOCALAPPDATA%\SimHub\LMUPitCompanion\consumption-history.json
+```
+
 ## Settings
 
 | Setting | Purpose | Default |
@@ -54,6 +75,7 @@ Selecting **Save and apply** resets the collected samples, so the strategy must 
 
 | SimHub action | What it does |
 | --- | --- |
+| `LMUPitCompanionPlugin.ApplyPreRaceLoad` | Applies the recommended starting fuel or Virtual Energy in the race garage. |
 | `LMUPitCompanionPlugin.ApplyStrategy` | Applies the general finish target. |
 | `LMUPitCompanionPlugin.ApplyStrategyThisPit` | Applies the target for stopping this lap. |
 | `LMUPitCompanionPlugin.NoRefuel` | Selects the minimum fuel or VE value. |
@@ -104,6 +126,15 @@ All properties use the `LMUPitCompanionPlugin.` prefix.
 | `LastTireResult` | Result of the latest tyre action. |
 | `PitStopRequested` | `1` requested, `0` clear, `-1` unavailable. |
 | `AutoNoRefuelStatus` | Latest automation decision or result. |
+| `HistoryStatus` | Availability of consumption history for the selected physical car and circuit layout. |
+| `HistoryVehicleModel` | Physical LMU model used by the historical profile. |
+| `HistoryTrackVariant` | Exact circuit-layout identity used by the historical profile. |
+| `HistoryFuelSamples` / `HistoryVESamples` | Number of accepted historical consumption samples. |
+| `PreRaceEstimateStatus` | Readiness or blocking reason for the starting-load estimate. |
+| `PreRaceEstimatedLaps` | Race laps estimated from the captured session duration or lap count. |
+| `PreRaceConsumptionPerLap` | Historical per-lap value used by the estimate. |
+| `PreRaceTarget` | Recommended starting percentage or litres, including margins. |
+| `PreRaceApplyStatus` | Result of the latest manual starting-load action. |
 
 Mode-specific properties are also available: `HasVE`, `VEPerLap`, `VEToEnd`, `VEReliable`, `FuelPerLap`, `FuelToEnd`, and `FuelReliable`.
 
