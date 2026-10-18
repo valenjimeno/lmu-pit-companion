@@ -4,6 +4,39 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.31.0] - 2026-10-18
+
+### Fixed
+
+- Automatic pre-race loading no longer treats stale practice or qualifying pit flags as proof that the car has already entered the race track. It waits for a clean race-garage frame while retaining the real on-track and pit-return locks.
+- Virtual Energy targets above 100% are treated as valid multi-stop race demand. General, this-pit and automatic this-pit actions now select the largest available VE setting for the next stint instead of failing with `ERROR_TARGET_OUT_OF_RANGE`.
+- Automatic this-pit strategy evaluates its own target instead of being rejected when the general target exceeds Virtual Energy capacity.
+- Native player finish status ends the strategy immediately after finish, retirement or disqualification, even when SimHub's global checkered flag remains clear.
+
+### Added
+
+- Active strategy sample count, per-lap consumption, confidence, amounts to add and the general/this-pit menu targets are published as SimHub properties for dashboards and Stream Deck profiles.
+- A settings option to disable new consumption-history recording. Turning it off also clears and disables automatic pre-race fuel or VE application; existing history is preserved.
+- Plugin and SimHub versions in startup logs, plus focused failure diagnostics for manual and automatic strategy calculations.
+
+## [0.30.0] - 2026-10-01
+
+### Added
+
+- Optional automatic pre-race fuel or Virtual Energy loading, enabled from the Automation section with Save and apply; disabled by default.
+- A single automatic attempt after the garage recommendation has remained stable for three seconds, with a race lock that survives telemetry interruptions and session GUID changes.
+- Automatic re-arming after a garage-confirmed change of vehicle model or circuit layout, or an observed transition through another session type.
+- AutoPreRaceEnabled and AutoPreRaceStatus dashboard properties.
+
+### Fixed
+
+- Garage identification can finish after SimHub's transient menu flag clears while LMU remains in the pre-race garage.
+
+### Usage notes
+
+- Wait for the starting-load operation to finish before joining the track. Immediate departure can retain the setup's original load.
+- A new race with the same model and layout may remain locked if no different session type was observed; the manual pre-race action remains available.
+
 ## [0.29.5] - 2026-09-30
 
 ### Added

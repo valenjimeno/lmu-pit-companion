@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.29.5 <br>
+**Documented version:** 0.30.0 <br>
 **Game:** Le Mans Ultimate<br>
 **Platform:** SimHub on Windows
 
@@ -48,7 +48,15 @@ Before a race, the plugin combines:
 - historical fuel or Virtual Energy consumption for the selected car and layout;
 - the configured safety-lap margin and timed-boundary protection.
 
-When `PreRaceEstimateStatus` is `READY`, run `LMUPitCompanionPlugin.ApplyPreRaceLoad`. The action detects whether LMU exposes `VM_FUEL_LEVEL` or `VM_VIRTUAL_ENERGY`, writes the corresponding garage value, and reads it back for verification. It runs only when requested; it does not repeatedly overwrite a manual change.
+When `PreRaceEstimateStatus` is `READY`, run `LMUPitCompanionPlugin.ApplyPreRaceLoad`. The action detects whether LMU exposes `VM_FUEL_LEVEL` or `VM_VIRTUAL_ENERGY`, writes the corresponding garage value, and reads it back for verification. The manual action remains available independently of automatic loading.
+
+To use automatic starting load, enable **Automatically apply starting fuel or VE** in **Automation**, then select **Save and apply**. It is disabled by default. The plugin makes one automatic attempt after a valid garage recommendation has remained stable for three seconds. It uses the configured historical consumption and margins, without requiring the Car Setup tab to be opened.
+
+Before joining the track, wait for `PreRaceApplyStatus` to report `APPLIED_VERIFIED` or `ALREADY_SET`. Leaving immediately can prevent the recommendation from being applied. LMU may keep displaying the old value in its menu; check the actual starting load on the in-car HUD.
+
+Driving locks automatic loading for that race. Returning to the garage, losing telemetry, changing the SimHub session GUID, or disabling and re-enabling the option does not clear this lock. Another observed session type, such as practice or qualifying, or a garage-confirmed change of physical car model or circuit layout re-arms it. A new race with the same car and layout may remain locked if no such transition was observed; use the manual pre-race action in that case. This conservative behavior will be improved as further session transitions are validated.
+
+`AutoPreRaceEnabled` exposes the saved option, and `AutoPreRaceStatus` shows the current state: `DISABLED`, `WAITING_FOR_GARAGE`, `WAITING_FOR_ESTIMATE`, `WAITING_FOR_GARAGE_SETTLE`, `ATTEMPTED`, or `RACE_LOCKED`. The outcome of the write appears separately in `PreRaceApplyStatus`. Disabling automatic loading does not restore an earlier setup value.
 
 The first completed lap establishes a baseline. At least three valid consumption samples are required before the pre-race recommendation becomes available. If there is insufficient history or the car, layout, session, or garage mode cannot be identified reliably, the action stops without changing the setup.
 
@@ -59,6 +67,8 @@ The local history file is stored at:
 ```
 
 ## Settings
+
+History identity is resolved from the garage in practice and qualifying as well as before a race. These identity-only reads do not apply starting fuel. History is recorded and consulted only when both a trusted physical model and a garage-confirmed circuit variant are available; otherwise `HistoryStatus` reports `NO_IDENTITY`. Live consumption remains available.
 
 | Setting | Purpose | Default |
 | --- | --- | ---: |
@@ -93,7 +103,7 @@ Selecting **Save and apply** resets the collected samples, so the strategy must 
 
 Axle, side, and individual-wheel actions first cancel any previous tyre selection. They then select only the requested tyres, preserving the compound fitted to each selected wheel. This prevents an earlier action from leaving additional tyres enabled.
 
-For conventional fuel, strategy actions convert the displayed total finish target into the amount that must be added to the fuel already in the car. If the complete amount does not fit, the action selects the largest fill exposed by LMU. For current-compound tyre actions, a new set is preferred; when none is available, the plugin selects the first used set of the same fitted compound. It never deliberately substitutes a different compound.
+For conventional fuel, strategy actions convert the displayed total finish target into the amount that must be added to the fuel already in the car. If the complete fuel or VE requirement does not fit in one stint, the action selects the largest value exposed by LMU for the next stint while preserving the full-race target in the dashboard properties. For current-compound tyre actions, a new set is preferred; when none is available, the plugin selects the first used set of the same fitted compound. It never deliberately substitutes a different compound.
 
 Actions can be assigned to a keyboard, steering wheel, Stream Deck, button box, or another controller supported by SimHub.
 
@@ -107,6 +117,12 @@ When automation is enabled and a new pit request is detected, the plugin follows
 
 The plugin rechecks the session, lap, pit request, telemetry, and manual selection before changing the menu.
 
+## Consumption history
+
+The **Generate consumption history** option is enabled by default. Disable it to stop adding new accepted laps to the history file. Existing profiles are preserved and remain available for manual pre-race recommendations.
+
+Automatic starting fuel or VE depends on history generation. Disabling history therefore clears and disables **Automatically apply starting fuel or VE**. Re-enabling history makes the automatic option available again, but does not turn it on automatically.
+
 ## Useful dashboard properties
 
 All properties use the `LMUPitCompanionPlugin.` prefix.
@@ -117,10 +133,16 @@ All properties use the `LMUPitCompanionPlugin.` prefix.
 | `ActiveMode` | `VE` or `FUEL`. |
 | `ActiveUnit` | `%` or `L`. |
 | `ActiveReliable` | `1` when enough valid samples exist. |
+| `ActiveSamples` | Number of accepted live samples for the active mode. |
+| `ActivePerLap` | Average consumption per lap for the active mode. |
+| `ActiveConfidence` | Confidence level based on the accepted sample count. |
 | `ActiveCurrent` | Current fuel or VE. |
 | `ActiveTarget` | General finish target. |
 | `ThisPitTarget` | Target for stopping this lap. |
+| `GeneralAmountToAdd` | Estimated amount added by the general strategy. |
 | `ThisPitAmountToAdd` | Estimated amount added at the stop. |
+| `GeneralMenuTarget` | Value the general action will request from the LMU Pit Menu. |
+| `ThisPitMenuTarget` | Value the this-lap action will request from the LMU Pit Menu. |
 | `LapsToEnd` | Estimated remaining laps. |
 | `LastResult` | Result of the latest strategy action. |
 | `LastTireResult` | Result of the latest tyre action. |
@@ -146,7 +168,8 @@ Mode-specific properties are also available: `HasVE`, `VEPerLap`, `VEToEnd`, `VE
 | `READY` | The strategy is available and reliable. |
 | `NOT_RELIABLE` | The selected action needs more valid samples. |
 | `TARGET_UNAVAILABLE` | Current telemetry cannot produce a target. |
-| `TARGET_OUT_OF_RANGE` | The required target is unavailable in the Pit Menu. |
+| `MULTI_STOP_REQUIRED` | The total VE demand exceeds one full charge. Strategy actions remain available and select the maximum menu value for the next stint. |
+| `TARGET_OUT_OF_RANGE` | The calculated target is invalid or unavailable in the Pit Menu. |
 | `WORKING` | A Pit Menu operation is in progress. |
 | `APPLIED` | The change was applied and verified. |
 | `BUSY` | Another operation is already running. |

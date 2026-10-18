@@ -16,7 +16,8 @@ LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy n
 
 - Calculates fuel and Virtual Energy targets from recent representative laps.
 - Builds compact consumption history separated by physical car model and circuit layout.
-- Can apply the recommended starting fuel or Virtual Energy from an assigned pre-race action.
+- Lets the driver stop recording new consumption-history samples without deleting existing profiles.
+- Can apply the recommended starting fuel or Virtual Energy from an assigned pre-race action or optional automatic loading from the Automation section, disabled by default.
 - Provides a dedicated target for stopping at the end of the current lap.
 - Detects when the car already has enough energy to finish.
 - Can optionally avoid unnecessary refuelling after a pit request.
@@ -54,6 +55,8 @@ To update, close SimHub and replace the existing DLL with the newer version. You
 
 The plugin identifies the physical LMU vehicle package rather than the team name. If the identity, race duration, garage mode, or history is unavailable, the action stops without changing the starting load.
 
+For automatic loading, enable **Automatically apply starting fuel or VE** and select **Save and apply**. The option is available only while **Generate consumption history** is enabled. Stay in the race garage until `PreRaceApplyStatus` reports `APPLIED_VERIFIED` or `ALREADY_SET`.
+
 ## First pit stop
 
 1. Start SimHub before starting or joining an LMU session.
@@ -62,7 +65,7 @@ The plugin identifies the physical LMU vehicle package rather than the team name
 4. Run `LMUPitCompanionPlugin.ApplyStrategyThisPit`, or enable automatic application in the plugin settings.
 5. Verify the LMU Pit Menu before entering the pits.
 
-The calculated value is the total fuel or Virtual Energy target after the stop. For conventional fuel, the action automatically subtracts the fuel already in the car and writes only the amount to add to the LMU Pit Menu.
+The calculated value is the total fuel or Virtual Energy target after the stop. For conventional fuel, the action automatically subtracts the fuel already in the car and writes only the amount to add to the LMU Pit Menu. When the race needs more than one tank or 100% VE, the full-race target remains visible and the action selects the largest available menu value for the next stint.
 
 ## SimHub actions
 
