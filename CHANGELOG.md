@@ -4,6 +4,13 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.31.1] - 2026-10-18
+
+### Fixed
+
+- Consumption history now recognizes the same physical circuit layout across event-branded garage names, such as the 4 Hours and 6 Hours of Spa-Francorchamps, so pre-race estimates reuse the existing car-and-track history.
+- Equivalent legacy history profiles are merged under the stable circuit-layout identity without mixing genuinely different layouts.
+
 ### Documentation
 
 - Expanded the user guide with the complete consumption-history lifecycle, accepted and rejected sample rules, setting dependencies, pre-race and history statuses, diagnostic behavior, and a full reference for every public SimHub property.
