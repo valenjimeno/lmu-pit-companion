@@ -10,8 +10,6 @@ LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy n
 
 > LMU Pit Companion is currently in public beta. Always verify the in-game Pit Menu before entering the pits.
 
-<!-- Add a short GIF or screenshot here before publication. -->
-
 ## Highlights
 
 - Calculates fuel and Virtual Energy targets from recent representative laps.
@@ -57,7 +55,7 @@ The plugin identifies the physical LMU vehicle package rather than the team name
 
 For automatic loading, enable **Automatically apply starting fuel or VE** and select **Save and apply**. The option is available only while **Generate consumption history** is enabled. Stay in the race garage until `PreRaceApplyStatus` reports `APPLIED_VERIFIED` or `ALREADY_SET`.
 
-## First pit stop
+## Pit-stop strategy
 
 1. Start SimHub before starting or joining an LMU session.
 2. Complete enough representative laps for `StrategyStatus` to become `READY`.

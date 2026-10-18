@@ -4,6 +4,11 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+### Documentation
+
+- Expanded the user guide with the complete consumption-history lifecycle, accepted and rejected sample rules, setting dependencies, pre-race and history statuses, diagnostic behavior, and a full reference for every public SimHub property.
+- Clarified the exact meaning of the general and this-pit menu targets for conventional fuel and Virtual Energy, including values shown on Stream Deck dashboards.
+
 ## [0.31.0] - 2026-10-18
 
 ### Fixed
