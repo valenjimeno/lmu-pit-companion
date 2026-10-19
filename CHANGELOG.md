@@ -4,17 +4,30 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
-## [0.31.1] - 2026-10-18
+## [0.32.0] - 2026-10-19
 
-### Fixed
+### Added
 
-- Consumption history now recognizes the same physical circuit layout across event-branded garage names, such as the 4 Hours and 6 Hours of Spa-Francorchamps, so pre-race estimates reuse the existing car-and-track history.
-- Equivalent legacy history profiles are merged under the stable circuit-layout identity without mixing genuinely different layouts.
+- `ToggleDamage` action to cycle through every damage-repair option exposed by the LMU Pit Menu, wrapping to the first option after the last.
+- Idempotent `DamageNoRepair`, `DamageRepairBody`, and `DamageRepairAll` actions for direct, repeat-safe repair selection from a wheel, button box, Stream Deck, or automation.
+- `LastDamageResult` dashboard property and English/Spanish controls for every damage action.
+
+### Safety
+
+- Damage changes are read from the current Pit Menu, applied as a complete menu object, verified after the write, and rolled back if verification fails.
+- Direct actions return `ALREADY_SET` without writing when the requested repair option is already active.
 
 ### Documentation
 
 - Expanded the user guide with the complete consumption-history lifecycle, accepted and rejected sample rules, setting dependencies, pre-race and history statuses, diagnostic behavior, and a full reference for every public SimHub property.
 - Clarified the exact meaning of the general and this-pit menu targets for conventional fuel and Virtual Energy, including values shown on Stream Deck dashboards.
+
+## [0.31.1] - 2026-10-18
+
+### Fixed
+
+- Consumption history now identifies a circuit layout by its stable garage layout code and length instead of the event display name. The same Spa layout therefore reuses its history across names such as `4 Hours of Spa-Francorchamps` and `6 Hours of Spa-Francorchamps`.
+- Existing profiles that differ only by event branding are normalized and merged when history is loaded, preserving their accumulated statistics and the newest recent-weighted values.
 
 ## [0.31.0] - 2026-10-18
 

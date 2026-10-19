@@ -20,7 +20,7 @@ LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy n
 - Detects when the car already has enough energy to finish.
 - Can optionally avoid unnecessary refuelling after a pit request.
 - Can optionally apply the recommended target after a pit request.
-- Includes actions for no refuelling and common tyre-change selections.
+- Includes actions for no refuelling, deterministic damage-repair selection, and common tyre-change selections.
 - Exposes SimHub properties for dashboards, overlays, and controller feedback.
 - Offers an English and Spanish settings interface.
 - Verifies Pit Menu changes and attempts a rollback if an operation fails.
@@ -73,6 +73,10 @@ The calculated value is the total fuel or Virtual Energy target after the stop. 
 | `LMUPitCompanionPlugin.ApplyStrategy` | Apply the conservative finish target. |
 | `LMUPitCompanionPlugin.ApplyStrategyThisPit` | Apply the target for stopping this lap. |
 | `LMUPitCompanionPlugin.NoRefuel` | Select the minimum fuel or Virtual Energy setting. |
+| `LMUPitCompanionPlugin.ToggleDamage` | Advance to the next available damage-repair option, wrapping after the last. |
+| `LMUPitCompanionPlugin.DamageNoRepair` | Select no damage repair directly. |
+| `LMUPitCompanionPlugin.DamageRepairBody` | Select body repair directly. |
+| `LMUPitCompanionPlugin.DamageRepairAll` | Select full damage repair directly. |
 | `LMUPitCompanionPlugin.TiresNoChange` | Cancel all tyre changes. |
 | `LMUPitCompanionPlugin.TiresAllCurrent` | Change all tyres using their current compounds. |
 | `LMUPitCompanionPlugin.TiresFrontCurrent` | Change only the front tyres. |
@@ -86,6 +90,8 @@ The calculated value is the total fuel or Virtual Energy target after the stop. 
 | `LMUPitCompanionPlugin.TiresAllWet` | Change all four tyres to wets. |
 
 Axle, side, and individual-wheel actions first cancel any previous tyre selection, then select only the requested tyres using the compound currently fitted to each wheel.
+
+`ToggleDamage` cycles through the repair options currently exposed by LMU. The three direct damage actions are idempotent and are the safer choice for deterministic controls or automations: repeating one leaves the requested option selected and performs no write when it is already active. Damage writes are verified and rolled back if LMU does not apply them correctly.
 
 ## Documentation and support
 

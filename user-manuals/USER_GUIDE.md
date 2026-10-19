@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.31.0<br>
+**Documented version:** 0.32.0 <br>
 **Game:** Le Mans Ultimate<br>
 **Platform:** SimHub on Windows
 
@@ -39,7 +39,7 @@ Two targets are available:
 
 ## Pre-race starting load
 
-The plugin stores a compact consumption history after valid laps. Profiles are separated by the physical LMU vehicle package and exact circuit layout, not by team name. Only aggregate statistics and recent weighted values are retained; individual laps are not stored indefinitely.
+The plugin stores a compact consumption history after valid laps. Profiles are separated by the physical LMU vehicle package and exact circuit layout, not by team name or event branding. The stable layout code and length are used, so names such as `4 Hours of Spa-Francorchamps` and `6 Hours of Spa-Francorchamps` share the same Spa profile. Only aggregate statistics and recent weighted values are retained; individual laps are not stored indefinitely.
 
 Before a race, the plugin combines:
 
@@ -93,6 +93,10 @@ Disabling **Generate consumption history** immediately clears and disables **Aut
 | `LMUPitCompanionPlugin.ApplyStrategy` | Applies the general finish target. |
 | `LMUPitCompanionPlugin.ApplyStrategyThisPit` | Applies the target for stopping this lap. |
 | `LMUPitCompanionPlugin.NoRefuel` | Selects the minimum fuel or VE value. |
+| `LMUPitCompanionPlugin.ToggleDamage` | Advances to the next damage-repair option and wraps after the last. |
+| `LMUPitCompanionPlugin.DamageNoRepair` | Selects no damage repair directly. |
+| `LMUPitCompanionPlugin.DamageRepairBody` | Selects body repair directly. |
+| `LMUPitCompanionPlugin.DamageRepairAll` | Selects full damage repair directly. |
 | `LMUPitCompanionPlugin.TiresNoChange` | Cancels all selected tyre changes. |
 | `LMUPitCompanionPlugin.TiresAllCurrent` | Changes all tyres using their fitted compounds. |
 | `LMUPitCompanionPlugin.TiresFrontCurrent` | Changes only the front tyres. |
@@ -106,6 +110,8 @@ Disabling **Generate consumption history** immediately clears and disables **Aut
 | `LMUPitCompanionPlugin.TiresAllWet` | Changes all four tyres to wets. |
 
 Axle, side, and individual-wheel actions first cancel any previous tyre selection. They then select only the requested tyres, preserving the compound fitted to each selected wheel. This prevents an earlier action from leaving additional tyres enabled.
+
+`ToggleDamage` reads the current damage setting and advances to the next option exposed by LMU, wrapping to the first option after the last. For deterministic controls and automations, prefer `DamageNoRepair`, `DamageRepairBody`, or `DamageRepairAll`. These direct actions are idempotent: when the requested option is already selected they report `ALREADY_SET` and do not write to the Pit Menu. Every damage write is verified and the complete previous menu is restored if verification fails.
 
 For conventional fuel, strategy actions convert the displayed total finish target into the amount that must be added to the fuel already in the car. If the complete fuel or VE requirement does not fit in one stint, the action selects the largest value exposed by LMU for the next stint while preserving the full-race target in the dashboard properties. For current-compound tyre actions, a new set is preferred; when none is available, the plugin selects the first used set of the same fitted compound. It never deliberately substitutes a different compound.
 
