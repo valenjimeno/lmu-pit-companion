@@ -4,6 +4,14 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.32.1] - 2026-10-23
+
+### Fixed
+
+- General and this-pit fuel strategies can now use a reliable matching consumption-history profile immediately at race start instead of waiting for two new race samples.
+- Historical consumption remains active during live warmup and hands over to the live rolling average only after the configured reliability threshold is reached.
+- Timed-race strategy targets can use LMU's native estimated lap time or SimHub's all-time best before the current session has produced a valid best lap.
+
 ## [0.32.0] - 2026-10-19
 
 ### Added

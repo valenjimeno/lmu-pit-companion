@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.32.0 <br>
+**Documented version:** 0.32.1 <br>
 **Game:** Le Mans Ultimate<br>
 **Platform:** SimHub on Windows
 
@@ -35,7 +35,7 @@ Two targets are available:
 - **General target:** a conservative target from the current position.
 - **This-pit target:** intended for a stop at the end of the current lap.
 
-`ActiveReliable = 1` and `StrategyStatus = READY` indicate that enough valid samples have been collected.
+`ActiveReliable = 1` and `StrategyStatus = READY` indicate that enough trustworthy evidence is available. A matching historical profile can provide that evidence immediately while the new session collects its live samples.
 
 ## Pre-race starting load
 
@@ -81,7 +81,7 @@ History identity is resolved from the garage in practice and qualifying as well 
 | Automatically apply this-pit strategy | Applies the recommended target when a new pit request is detected. | Off |
 | Diagnostics log | Records information useful for troubleshooting. | On |
 
-Selecting **Save and apply** resets the collected samples, so the strategy must become reliable again.
+Selecting **Save and apply** resets the collected live samples. A matching historical profile that already meets the configured minimum remains available and reliable while the new live window warms up.
 
 Disabling **Generate consumption history** immediately clears and disables **Automatically apply starting fuel or VE**. Re-enabling history makes the automatic option selectable again but does not turn it back on. This prevents an automatic garage write from depending on a data source that the driver has explicitly disabled.
 
@@ -143,6 +143,8 @@ The first completed lap establishes the consumption baseline. Later completed la
 
 The file stores compact aggregate statistics, recent-weighted means, sample counts, variability, and the latest update time. It does not retain an unlimited list of individual laps. The recent-weighted value lets newer representative driving influence the estimate without discarding the longer-term profile. The catalog is bounded to 256 profiles; if that limit is reached, the least recently used profile is removed when a new one is created.
 
+When a matching profile contains enough accepted samples, the general and this-pit strategies use its recent-weighted consumption immediately at race start. The historical value remains active until the live rolling window reaches the configured minimum sample count; the plugin then switches to `LIVE`. Live sample properties remain independent and continue to report only samples collected in the current session.
+
 Identity can be confirmed from the garage in practice, qualifying, or race sessions. These identity-only reads never apply a starting load. Until both the physical car and circuit variant are trustworthy, `HistoryStatus` is `NO_IDENTITY`; live-session consumption can still work independently.
 
 Disable history generation to stop adding new accepted laps. Existing profiles are neither deleted nor reset. They remain available to seed live calculations and to produce a manually requested pre-race recommendation. The automatic starting-load option is disabled because it requires history generation to remain enabled.
@@ -175,17 +177,17 @@ Every property below uses the `LMUPitCompanionPlugin.` prefix. For example, use 
 | `VEPerLap` | Average Virtual Energy percentage points consumed per lap. |
 | `VEPerLapSource` | `HISTORICAL`, `LIVE`, or `UNAVAILABLE`. |
 | `VEToEnd` | Full-race Virtual Energy target including reserve; it may exceed 100 for a multi-stop race. |
-| `VEReliable` | `1` when enough live VE samples exist. |
+| `VEReliable` | `1` when the selected historical or live VE source has enough samples. |
 | `FuelPerLap` | Average fuel consumption in litres per lap. |
 | `FuelPerLapSource` | `HISTORICAL`, `LIVE`, or `UNAVAILABLE`. |
 | `FuelToEnd` | Full-race fuel target including reserve; it may exceed tank capacity. |
-| `FuelReliable` | `1` when enough live fuel samples exist. |
+| `FuelReliable` | `1` when the selected historical or live fuel source has enough samples. |
 | `ActiveMode` | Active strategy mode: `VE` or `FUEL`. |
 | `ActiveUnit` | Unit for active values: `%` or `L`. |
-| `ActiveReliable` | `1` when the active mode has enough live samples. Historical seeding alone does not make live automation reliable. |
+| `ActiveReliable` | `1` when the active historical or live source has enough valid samples. |
 | `ActiveSamples` | Accepted live samples for the active mode. |
 | `ActivePerLap` | Average consumption per lap for the active mode. |
-| `ActiveConfidence` | Confidence label based on the accepted live sample count. |
+| `ActiveConfidence` | Confidence label based on the evidence used by the active source. |
 | `ActiveCurrent` | Current VE percentage or fuel litres. |
 | `ActiveTarget` | Full-race general target. |
 | `ThisPitTarget` | Full-race target calculated for a stop at the end of the current lap. |

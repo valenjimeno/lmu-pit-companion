@@ -14,6 +14,7 @@ LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy n
 
 - Calculates fuel and Virtual Energy targets from recent representative laps.
 - Builds compact consumption history separated by physical car model and circuit layout.
+- Uses a reliable matching history immediately while new live-session samples warm up.
 - Lets the driver stop recording new consumption-history samples without deleting existing profiles.
 - Can apply the recommended starting fuel or Virtual Energy from an assigned pre-race action or optional automatic loading from the Automation section, disabled by default.
 - Provides a dedicated target for stopping at the end of the current lap.
