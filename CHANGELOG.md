@@ -4,6 +4,13 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.32.2] - 2026-11-01
+
+### Fixed
+
+- Automatic no-refuelling and this-pit application no longer mistake a stable LMU session value, such as a 70% starting Virtual Energy setting, for a manual override merely because LMU reports a different protocol default.
+- A real fuel or Virtual Energy selection change between the two safety reads still cancels the automatic write.
+
 ## [0.32.1] - 2026-10-23
 
 ### Fixed

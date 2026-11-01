@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.32.1 <br>
+**Documented version:** 0.32.2 <br>
 **Game:** Le Mans Ultimate<br>
 **Platform:** SimHub on Windows
 
@@ -133,7 +133,7 @@ When automation is enabled and a new pit request is detected, the plugin follows
 2. Select no refuelling if the current level is sufficient and that option is enabled.
 3. Otherwise apply the this-pit strategy if automatic application is enabled.
 
-The plugin rechecks the session, lap, pit request, telemetry, and manual selection before changing the menu.
+The plugin rechecks the session, lap, pit request, telemetry, and Pit Menu selection before changing the menu. LMU's protocol `default` can differ from the stable value selected for the current session, so that difference alone is not treated as a manual override. A fuel or Virtual Energy selection that changes between the two safety reads still cancels the automatic write.
 
 ## Consumption history
 
