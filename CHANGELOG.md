@@ -4,6 +4,20 @@ This file records public releases of LMU Pit Companion.
 
 ## [Unreleased]
 
+## [0.33.0] - 2026-11-23
+
+### Added
+
+- Direct `TiresAllSoft`, `TiresAllMedium`, and `TiresAllHard` actions to change all four tyres to dry compounds, including when wets are fitted.
+- Explicit dry-compound fallback orders: Soft → Medium → Hard, Medium → Hard → Soft, and Hard → Medium → Soft. New sets are preferred, then used sets of the requested compound before substituting another compound. If no supported dry compound is available, the action fails without writing.
+- `TiresCycleCompound` action for a single-button Soft → Medium → Hard → Wet cycle based on the current Pit Menu selection. It skips compounds unavailable globally or on any corner and follows manual selection changes on the next press.
+- English and Spanish controls, descriptions, and assignment guidance for all four new actions.
+
+### Safety and compatibility
+
+- Tyre changes preserve complete menu objects, verify all four corners and unrelated settings, and attempt to restore the original menu on failure. From No Change, mixed or unrecognised selections, the cycle starts at the first available compound; with only one available compound it keeps that compound.
+- Existing action names, dashboard properties, settings and consumption-history formats are retained. This release includes the historical-start and automation fixes from 0.32.1 and 0.32.2.
+
 ## [0.32.2] - 2026-11-01
 
 ### Fixed

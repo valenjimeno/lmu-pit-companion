@@ -22,6 +22,7 @@ LMU Pit Companion is a SimHub plugin that estimates the fuel or Virtual Energy n
 - Can optionally avoid unnecessary refuelling after a pit request.
 - Can optionally apply the recommended target after a pit request.
 - Includes actions for no refuelling, deterministic damage-repair selection, and common tyre-change selections.
+- Offers direct Soft, Medium and Hard tyre selections with dry-compound fallbacks, plus a single-button Soft → Medium → Hard → Wet cycle.
 - Exposes SimHub properties for dashboards, overlays, and controller feedback.
 - Offers an English and Spanish settings interface.
 - Verifies Pit Menu changes and attempts a rollback if an operation fails.
@@ -59,7 +60,7 @@ For automatic loading, enable **Automatically apply starting fuel or VE** and se
 ## Pit-stop strategy
 
 1. Start SimHub before starting or joining an LMU session.
-2. Complete enough representative laps for `StrategyStatus` to become `READY`.
+2. Wait for `StrategyStatus` to become `READY`: a reliable matching history can provide the initial estimate immediately; otherwise complete enough representative laps.
 3. Request a pit stop in LMU.
 4. Run `LMUPitCompanionPlugin.ApplyStrategyThisPit`, or enable automatic application in the plugin settings.
 5. Verify the LMU Pit Menu before entering the pits.
@@ -89,6 +90,14 @@ The calculated value is the total fuel or Virtual Energy target after the stop. 
 | `LMUPitCompanionPlugin.TiresRearLeftCurrent` | Change only the rear-left tyre (`RL`). |
 | `LMUPitCompanionPlugin.TiresRearRightCurrent` | Change only the rear-right tyre (`RR`). |
 | `LMUPitCompanionPlugin.TiresAllWet` | Change all four tyres to wets. |
+| `LMUPitCompanionPlugin.TiresAllSoft` | Change all four tyres to Soft, falling back to Medium then Hard. |
+| `LMUPitCompanionPlugin.TiresAllMedium` | Change all four tyres to Medium, falling back to Hard then Soft. |
+| `LMUPitCompanionPlugin.TiresAllHard` | Change all four tyres to Hard, falling back to Medium then Soft. |
+| `LMUPitCompanionPlugin.TiresCycleCompound` | Cycle all four tyres through Soft → Medium → Hard → Wet, skipping unavailable compounds. |
+
+`TiresCycleCompound` advances from the current Pit Menu selection on each press. From No Change, mixed or unrecognised selections, it starts at the first available compound in that order. New sets are preferred, then used sets; compounds unavailable on any corner are skipped. With a single available compound, it keeps that compound. With none, it fails without writing.
+
+Dry-compound actions work even when wets are fitted. They prefer a new set of the selected compound, then a used set of that compound. If the requested compound is unavailable, they use the fallback order above. If no supported dry compound is available, they fail without writing. Writes are verified and the previous menu is restored on failure.
 
 Axle, side, and individual-wheel actions first cancel any previous tyre selection, then select only the requested tyres using the compound currently fitted to each wheel.
 

@@ -1,6 +1,6 @@
 # LMU Pit Companion User Guide
 
-**Documented version:** 0.32.2 <br>
+**Documented version:** 0.33.0 <br>
 **Game:** Le Mans Ultimate<br>
 **Platform:** SimHub on Windows
 
@@ -108,6 +108,14 @@ Disabling **Generate consumption history** immediately clears and disables **Aut
 | `LMUPitCompanionPlugin.TiresRearLeftCurrent` | Changes only the rear-left tyre (`RL`) using its fitted compound. |
 | `LMUPitCompanionPlugin.TiresRearRightCurrent` | Changes only the rear-right tyre (`RR`) using its fitted compound. |
 | `LMUPitCompanionPlugin.TiresAllWet` | Changes all four tyres to wets. |
+| `LMUPitCompanionPlugin.TiresAllSoft` | Changes all four tyres to Soft; if unavailable, tries Medium then Hard. |
+| `LMUPitCompanionPlugin.TiresAllMedium` | Changes all four tyres to Medium; if unavailable, tries Hard then Soft. |
+| `LMUPitCompanionPlugin.TiresAllHard` | Changes all four tyres to Hard; if unavailable, tries Medium then Soft. |
+| `LMUPitCompanionPlugin.TiresCycleCompound` | Cycles all four tyres through Soft → Medium → Hard → Wet, skipping unavailable compounds. |
+
+Assign `TiresCycleCompound` to a single button to advance from the compound currently selected in the Pit Menu on every press, including manual menu changes. It does not use the fitted compound as its starting point. From No Change, mixed or unrecognised selections, it starts at the first available compound in the cycle. Each compound must be selectable globally and on all four corners. New sets are preferred, then used sets of that compound. With only one available compound, it keeps that compound; with none, it reports `ERROR_TIRE_SETTING` without writing. Every write is verified and failure attempts to restore the original menu.
+
+The three dry-compound actions also work when wets are fitted and do not need mounted-compound telemetry. The fallback uses the closest available dry compound, preferring the harder one on a tie. Availability is read from the Pit Menu's `type` and `isUsed` metadata: new sets are preferred, then used sets of the same compound, before substituting another compound. Only Soft, Medium and Hard are recognised as dry compounds. If none is available, the action reports `ERROR_TIRE_SETTING` without writing. The actual compound is recorded in the diagnostics and SimHub log. Every write verifies all four corners and unrelated settings; failure attempts to restore the complete original menu.
 
 Axle, side, and individual-wheel actions first cancel any previous tyre selection. They then select only the requested tyres, preserving the compound fitted to each selected wheel. This prevents an earlier action from leaving additional tyres enabled.
 
@@ -129,7 +137,7 @@ Actions can be assigned to a keyboard, steering wheel, Stream Deck, button box, 
 
 When automation is enabled and a new pit request is detected, the plugin follows this priority:
 
-1. Keep an existing manual fuel or VE selection.
+1. Cancel the automatic write if the fuel or VE selection changes between the two safety reads.
 2. Select no refuelling if the current level is sufficient and that option is enabled.
 3. Otherwise apply the this-pit strategy if automatic application is enabled.
 
